@@ -1,20 +1,19 @@
-# 🧠 AI Speech Analyzer
+# AI Speech Analyzer
 
 AI Speech Analyzer is a web application that allows users to record or upload speech in English or Hindi, get it transcribed using OpenAI Whisper, and receive intelligent feedback and analysis powered by GPT-4.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🎙️ Record or Upload Audio  
-- ✍️ Automatic Transcription via OpenAI Whisper  
-- 🧠 AI-Powered Analysis with GPT-4  
-- 🌐 Bilingual Support: English & Hindi  
-- ⚡ Fast & Lightweight (Flask + Vanilla JS)
+- Record or Upload Audio  
+- Automatic Transcription via OpenAI Whisper  
+- AI-Powered Analysis with GPT-4  
+- Bilingual Support: English & Hindi  
 
 ---
 
-## ⚙️ Local Setup
+## Local Setup
 
 ### 1. Clone the Repo
 
@@ -69,7 +68,7 @@ http://localhost:5000
 
 ---
 
-## 🧪 Tech Stack
+## Tech Stack
 
 - Python (Flask)
 - HTML/CSS/JS (Vanilla)
