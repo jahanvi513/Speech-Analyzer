@@ -1,4 +1,4 @@
 Flask==2.0.1
 Werkzeug==2.0.3
-openai==0.28
 gunicorn
+openai>=1.13.3
