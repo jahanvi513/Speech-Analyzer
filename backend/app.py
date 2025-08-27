@@ -21,33 +21,50 @@ def index():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     audio = request.files['audio']
+    user_api_key = request.form.get("api_key") 
+
+    if not user_api_key:
+        return jsonify({"error": "No API key provided"}), 400
+
+    # Save audio temporarily
     temp_filename = os.path.join(UPLOAD_FOLDER, f"{uuid.uuid4()}.wav")
     audio.save(temp_filename)
 
-    # Transcribe using OpenAI Whisper API (new SDK)
-    with open(temp_filename, "rb") as file:
+    try:
         from openai import OpenAI
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        transcript = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=file
-        )
+        client = OpenAI(api_key=user_api_key) 
+
+        # Step 1: Transcribe using Whisper
+        with open(temp_filename, "rb") as file:
+            transcript = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=file
+            )
         transcription = transcript.text
 
-    # Analyze using GPT-4
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": transcription}
-        ],
-        temperature=0.7,
-        max_tokens=800
-    )
-    analysis = response.choices[0].message.content
+        # Step 2: Analyze using GPT-4
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": transcription}
+            ],
+            temperature=0.7,
+            max_tokens=800
+        )
+        analysis = response.choices[0].message.content
 
-    os.remove(temp_filename)
-    return jsonify({"transcription": transcription, "analysis": analysis})
+        return jsonify({
+            "transcription": transcription,
+            "analysis": analysis
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        if os.path.exists(temp_filename):
+            os.remove(temp_filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
