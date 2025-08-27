@@ -60,11 +60,43 @@ function submitRecordedAudio() {
     analyzeAudio(formData);
 }
 
+function saveApiKey() {
+    const apiKey = document.getElementById("apiKey").value;
+    if (!apiKey) {
+        alert("Please enter a valid API key!");
+        return;
+    }
+
+    sessionStorage.setItem("openai_api_key", apiKey);
+    document.getElementById("api-key-container").style.display = "none";
+
+    alert("API key saved for this session only.");
+}
+
 function analyzeAudio(formData) {
+    const apiKey = sessionStorage.getItem("openai_api_key");
+    if (!apiKey) {
+        alert("Please enter and save your OpenAI API key before analyzing audio.");
+        return;
+    }
+
+    formData.append("api_key", apiKey);
+
     fetch('/analyze', { method: 'POST', body: formData })
         .then(res => res.json())
         .then(data => {
+            if (data.error) {
+                document.getElementById('transcription').textContent = "";
+                document.getElementById('analysis').textContent = "";
+                alert("Error: " + data.error);
+                return;
+            }
+
             document.getElementById('transcription').textContent = data.transcription;
             document.getElementById('analysis').textContent = data.analysis;
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            alert("An error occurred while analyzing. Check console for details.");
         });
 }

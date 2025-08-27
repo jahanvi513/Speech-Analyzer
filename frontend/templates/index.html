@@ -13,6 +13,12 @@
         <button onclick="showRecord()">Record Audio</button>
     </div>
 
+    <div id="api-key-container" class="api-key-input">
+        <label for="apiKey">Enter your OpenAI API Key:</label>
+        <input type="password" id="apiKey" placeholder="sk-..." />
+        <button type="button" onclick="saveApiKey()">Save Key</button>
+    </div>
+
     <div id="uploadSection" style="display: none;">
         <input type="file" id="audioUpload" accept="audio/*">
         <button onclick="submitAudio()">Analyze</button>
