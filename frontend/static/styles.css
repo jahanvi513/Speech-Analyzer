@@ -13,6 +13,11 @@ h1 {
     color: #00ffd0;
 }
 
+h3 {
+    margin-top: 2rem;
+    color: #00ffd0;
+}
+
 .button-group {
     margin-bottom: 1.5rem;
 }
@@ -33,9 +38,15 @@ button:hover {
     background-color: #00c4a7;
 }
 
-input[type="file"] {
+input[type="file"],
+input[type="password"] {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
 }
 
 #uploadSection,
@@ -60,11 +71,6 @@ audio {
     color: #ffcc00;
 }
 
-h3 {
-    margin-top: 2rem;
-    color: #00ffd0;
-}
-
 p {
     max-width: 800px;
     margin: 1rem auto;
@@ -75,4 +81,84 @@ p {
     color: #e0e0e0;
     white-space: pre-line;
     text-align: left;
+}
+
+.analysis-box {
+    max-width: 1000px;
+    margin: 1rem auto;
+    background-color: #1e1e1e;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: left;
+}
+
+#analysisTableContainer {
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+#analysisTable {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#analysisTable th,
+#analysisTable td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    white-space: normal;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+#analysisTable th {
+    background-color: #00ffd0;
+    color: #121212;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+#analysisTable tr:nth-child(even) {
+    background-color: #2a2a2a; 
+}
+@media (min-width: 1024px) {
+    #analysisTable th:nth-child(8),
+    #analysisTable td:nth-child(8),
+    #analysisTable th:nth-child(9),
+    #analysisTable td:nth-child(9), 
+    #analysisTable th:nth-child(10),
+    #analysisTable td:nth-child(10), 
+    #analysisTable th:nth-child(12),
+    #analysisTable td:nth-child(12) { 
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 1023px) and (min-width: 601px) {
+    #analysisTable {
+        font-size: 0.85rem;
+    }
+    #analysisTable th,
+    #analysisTable td {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    #analysisTableContainer {
+        overflow-x: auto;  
+    }
+    #analysisTable {
+        min-width: 800px;
+    }
 }

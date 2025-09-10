@@ -37,29 +37,29 @@
     <p id="transcription"></p>
 
     <h3>Analysis:</h3>
-    <p id="analysis"></p>
-
-    <table id="analysisTable" border="1">
-        <thead>
-            <tr>
-            <th>Date & Time</th>
-            <th>Audio Name</th>
-            <th>Overall Score</th>
-            <th>Language</th>
-            <th>Clarity</th>
-            <th>Confidence</th>
-            <th>Fluency</th>
-            <th>Topic Relevance</th>
-            <th>Strong Points</th>
-            <th>Improvements</th>
-            <th>Filler Words</th>
-            <th>General Feedback</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
+    <div id="analysis-block" class="analysis-box">
+        <div id="analysisTableContainer" style="display: none; margin-top: 1rem;">
+            <table id="analysisTable">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Audio Name</th>
+                        <th>Overall Score</th>
+                        <th>Language</th>
+                        <th>Clarity</th>
+                        <th>Confidence</th>
+                        <th>Fluency</th>
+                        <th>Topic Relevance</th>
+                        <th>Strong Points</th>
+                        <th>Improvements</th>
+                        <th>Filler Words</th>
+                        <th>General Feedback</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="/static/script.js"></script>
 </body>

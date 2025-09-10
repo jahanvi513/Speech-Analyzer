@@ -73,7 +73,6 @@ function saveApiKey() {
     alert("API key saved for this session only.");
 }
 
-// 🟢 Add analysis results as a row in the table
 function addAnalysisToTable(analysis) {
     const table = document.getElementById("analysisTable").getElementsByTagName("tbody")[0];
     const row = table.insertRow();
@@ -110,11 +109,9 @@ function analyzeAudio(formData) {
                 return;
             }
 
-            // Show transcription
             document.getElementById('transcription').textContent = data.transcription;
-
-            // Append analysis row in table
             addAnalysisToTable(data.analysis);
+            document.getElementById("analysisTableContainer").style.display = "block";
         })
         .catch(err => {
             console.error("Fetch error:", err);

@@ -9,7 +9,6 @@ app = Flask(__name__, template_folder='../frontend/templates', static_folder='..
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Clear temp uploads folder on server restart
 for f in os.listdir(UPLOAD_FOLDER):
     os.remove(os.path.join(UPLOAD_FOLDER, f))
 
@@ -53,7 +52,6 @@ def analyze():
             temperature=0.7,
             max_tokens=800
         )
-
         
         raw_content = response.choices[0].message.content.strip()
         try:
@@ -62,11 +60,7 @@ def analyze():
                 if isinstance(value, (dict, list)):
                     analysis_json[key] = json.dumps(value, ensure_ascii=False)
         except json.JSONDecodeError:
-            # fallback: wrap in error if GPT messes up
             return jsonify({"error": "Failed to parse GPT response as JSON", "raw": raw_content}), 500
-
-        
-
 
         result = {
             "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -78,8 +72,6 @@ def analyze():
             "transcription": transcription,
             "analysis": result
         })
-
-
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
