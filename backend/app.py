@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify
-import os, uuid
-import openai
+import os, uuid, json
+import openai 
 from systemprompt import system_prompt
 from config import OPENAI_API_KEY
+from datetime import datetime
 
 app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
 UPLOAD_FOLDER = 'uploads'
@@ -46,18 +47,39 @@ def analyze():
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": system_prompt + "\n\nReturn the analysis strictly in valid JSON format with these fields: overall_score, language, clarity, confidence, fluency, topic_relevance, strong_points, improvements, filler_words, general_feedback."},
                 {"role": "user", "content": transcription}
             ],
             temperature=0.7,
             max_tokens=800
         )
-        analysis = response.choices[0].message.content
+
+        
+        raw_content = response.choices[0].message.content.strip()
+        try:
+            analysis_json = json.loads(raw_content)
+            for key, value in analysis_json.items():
+                if isinstance(value, (dict, list)):
+                    analysis_json[key] = json.dumps(value, ensure_ascii=False)
+        except json.JSONDecodeError:
+            # fallback: wrap in error if GPT messes up
+            return jsonify({"error": "Failed to parse GPT response as JSON", "raw": raw_content}), 500
+
+        
+
+
+        result = {
+            "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "audio_name": audio.filename,
+            **analysis_json
+        }
 
         return jsonify({
             "transcription": transcription,
-            "analysis": analysis
+            "analysis": result
         })
+
+
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

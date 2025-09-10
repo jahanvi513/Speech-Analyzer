@@ -73,6 +73,25 @@ function saveApiKey() {
     alert("API key saved for this session only.");
 }
 
+// 🟢 Add analysis results as a row in the table
+function addAnalysisToTable(analysis) {
+    const table = document.getElementById("analysisTable").getElementsByTagName("tbody")[0];
+    const row = table.insertRow();
+
+    row.insertCell(0).innerText = analysis.datetime;
+    row.insertCell(1).innerText = analysis.audio_name;
+    row.insertCell(2).innerText = analysis.overall_score;
+    row.insertCell(3).innerText = analysis.language;
+    row.insertCell(4).innerText = analysis.clarity;
+    row.insertCell(5).innerText = analysis.confidence;
+    row.insertCell(6).innerText = analysis.fluency;
+    row.insertCell(7).innerText = analysis.topic_relevance;
+    row.insertCell(8).innerText = analysis.strong_points;
+    row.insertCell(9).innerText = analysis.improvements;
+    row.insertCell(10).innerText = analysis.filler_words;
+    row.insertCell(11).innerText = analysis.general_feedback;
+}
+
 function analyzeAudio(formData) {
     const apiKey = sessionStorage.getItem("openai_api_key");
     if (!apiKey) {
@@ -87,13 +106,15 @@ function analyzeAudio(formData) {
         .then(data => {
             if (data.error) {
                 document.getElementById('transcription').textContent = "";
-                document.getElementById('analysis').textContent = "";
                 alert("Error: " + data.error);
                 return;
             }
 
+            // Show transcription
             document.getElementById('transcription').textContent = data.transcription;
-            document.getElementById('analysis').textContent = data.analysis;
+
+            // Append analysis row in table
+            addAnalysisToTable(data.analysis);
         })
         .catch(err => {
             console.error("Fetch error:", err);
